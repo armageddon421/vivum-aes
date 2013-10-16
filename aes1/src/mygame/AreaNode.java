@@ -74,7 +74,7 @@ public class AreaNode extends Node{
     }
     
     public void updateGraphics(float tpf){
-        statusText.setText(String.format("Z: %d\nH: %d\nHS: %d\nS: %d", numZombies, numHumans, numHumansInShelters, numSoldiers));
+        statusText.setText(String.format("Z: %d\nH: %d\nAS: %d\nHS: %d\nS: %d", numZombies, numHumans, numAvailShelters, numHumansInShelters, numSoldiers));
     }
     
     
@@ -112,8 +112,8 @@ public class AreaNode extends Node{
     }
     
     void humanSearchShelter(float tpf){
-        if(numHumans > 0){
-            double ps = numHumans * 0.25;
+        if((numHumans > 0) && (numZombies > 0)){
+            double ps = numHumans * 0.1;
             int goesToShelter = (int)(numHumans * ps);
             if (goesToShelter > numAvailShelters-numHumansInShelters){
                 goesToShelter = numAvailShelters-numHumansInShelters;
