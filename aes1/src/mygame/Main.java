@@ -1,34 +1,43 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
-import com.jme3.math.Vector3f;
+import com.jme3.math.Vector2f;
 import com.jme3.renderer.RenderManager;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.shape.Box;
+import com.jme3.scene.Node;
 
 /**
  * test
  * @author normenhansen
  */
 public class Main extends SimpleApplication {
+    
+    public static Main app;
+    
+    //holds all areas
+    private Node areas;
+    
 
     public static void main(String[] args) {
-        Main app = new Main();
+        app = new Main();
         app.start();
     }
 
     @Override
     public void simpleInitApp() {
-        Box b = new Box(Vector3f.ZERO, 1, 1, 1);
-        Geometry geom = new Geometry("Box", b);
-
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
-
-        rootNode.attachChild(geom);
+        
+        areas = new Node("areas");
+        rootNode.attachChild(areas);
+        
+        for(int i=0; i<10; i++){
+            AreaNode an = new AreaNode(new Vector2f(i*1f,0f), new Vector2f(1f,1f));
+            areas.attachChild(an);
+        }
+        
+        for(int i=0; i<areas.getQuantity()-1; i++){
+            ((AreaNode)areas.getChild(i)).connect((AreaNode)areas.getChild(i+1));
+        }
+        
+        
     }
 
     @Override
