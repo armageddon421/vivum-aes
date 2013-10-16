@@ -4,6 +4,8 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.math.Vector2f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
+import java.util.Random;
 
 /**
  * test
@@ -16,6 +18,8 @@ public class Main extends SimpleApplication {
     //holds all areas
     private Node areas;
     
+    private float tickTime;
+    
 
     public static void main(String[] args) {
         app = new Main();
@@ -24,6 +28,7 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
+        tickTime = 0f;
         
         areas = new Node("areas");
         rootNode.attachChild(areas);
@@ -31,22 +36,53 @@ public class Main extends SimpleApplication {
         for(int i=0; i<10; i++){
             AreaNode an = new AreaNode(new Vector2f(i*1f,0f), new Vector2f(1f,1f));
             areas.attachChild(an);
+            an.setNumHumans((int)(Math.random()*100));
+            if(i == 0) an.setNumZombies(10);
+            //if(i == 0) an.setNumHumans(100);
         }
         
         for(int i=0; i<areas.getQuantity()-1; i++){
             ((AreaNode)areas.getChild(i)).connect((AreaNode)areas.getChild(i+1));
+            ((AreaNode)areas.getChild(i+1)).connect((AreaNode)areas.getChild(i));
+            
         }
         
-        
+       
     }
 
     @Override
     public void simpleUpdate(float tpf) {
-        //TODO: add update code
+        updateLogic(tpf);
+        updateGraphics(tpf);
     }
 
     @Override
     public void simpleRender(RenderManager rm) {
         //TODO: add render code
     }
+    
+    void updateLogic(float tpf){
+        tickTime += tpf;
+        
+        if(tickTime > 0.2f){
+            tickTime -= 0.2f;
+            for(Spatial an : areas.getChildren()){
+                ((AreaNode)an).planZombieMovements(tpf);
+            }
+            for(Spatial an : areas.getChildren()){
+                ((AreaNode)an).moveZombies(tpf);
+            }
+            for(Spatial an : areas.getChildren()){
+                ((AreaNode)an).eatZombies(tpf);
+            }
+        }
+    }
+    
+    void updateGraphics(float tpf){
+        for(Spatial an : areas.getChildren()){
+            ((AreaNode)an).updateGraphics(tpf);
+        }
+    }
+    
+    
 }

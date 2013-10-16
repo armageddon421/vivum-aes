@@ -22,6 +22,9 @@ public class AreaConnectionNode extends Node{
     private AreaNode src, to;
     
     private Vector2f pos, size;
+
+
+    int toMoveZombies, toMoveHumans, toMoveSoldiers;
     
     AreaConnectionNode(AreaNode source, AreaNode target){
         
@@ -30,6 +33,7 @@ public class AreaConnectionNode extends Node{
         
         pos = new Vector2f();
         size = new Vector2f();
+        
         
         if(to.getPosition().x + to.getSize().x <= src.getPosition().x){
             pos.setY(Math.max(src.getPosition().y, to.getPosition().y) + CONNECTION_PADDING);
@@ -57,7 +61,41 @@ public class AreaConnectionNode extends Node{
         attachChild(geom);
     }
     
+    public AreaNode getSrc() {
+        return src;
+    }
+
+    public AreaNode getTo() {
+        return to;
+    }
     
+    public void executeMovements(){
+        if(src.getNumZombies() >= toMoveZombies){
+            src.setNumZombies(src.getNumZombies()-toMoveZombies);
+            to.setNumZombies(to.getNumZombies()+toMoveZombies);
+        }
+        if(src.getNumHumans() >= toMoveHumans){
+            src.setNumHumans(src.getNumHumans()-toMoveHumans);
+            to.setNumHumans(to.getNumHumans()+toMoveHumans);
+        }
+        if(src.getNumSoldiers() >= toMoveSoldiers){
+            src.setNumSoldiers(src.getNumSoldiers()-toMoveSoldiers);
+            to.setNumSoldiers(to.getNumSoldiers()+toMoveSoldiers);
+        }
+        
+        toMoveHumans = toMoveSoldiers = toMoveZombies = 0;
+    }
     
+    public void moveZombies(int num){
+        toMoveZombies += num;
+    }
+    
+    public void moveHumans(int num){
+        toMoveHumans += num;
+    }
+    
+    public void moveSoldiers(int num){
+        toMoveSoldiers += num;
+    }
     
 }
