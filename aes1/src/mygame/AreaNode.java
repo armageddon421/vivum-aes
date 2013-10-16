@@ -27,6 +27,9 @@ public class AreaNode extends Node{
     private int numZombies;
     private int numHumans;
     private int numSoldiers;
+    private int numAvailShelters;
+    private int numHumansInShelters;
+
     
     private Vector2f pos;
     private Vector2f size;
@@ -39,6 +42,8 @@ public class AreaNode extends Node{
         this.numZombies = 0;
         this.numHumans = 0;
         this.numSoldiers = 0;
+        this.numAvailShelters = 0;
+        this.numHumansInShelters = 0;
         this.pos = pos;
         this.size = size;
         
@@ -69,7 +74,7 @@ public class AreaNode extends Node{
     }
     
     public void updateGraphics(float tpf){
-        statusText.setText(String.format("Z: %d\nH: %d\nS: %d", numZombies, numHumans, numSoldiers));
+        statusText.setText(String.format("Z: %d\nH: %d\nHS: %d\nS: %d", numZombies, numHumans, numHumansInShelters, numSoldiers));
     }
     
     
@@ -103,6 +108,18 @@ public class AreaNode extends Node{
         for(Spatial sp : connections.getChildren()){
             AreaConnectionNode acn = (AreaConnectionNode)sp;
             acn.executeMovements();
+        }
+    }
+    
+    void humanSearchShelter(float tpf){
+        if(numHumans > 0){
+            double ps = numHumans * 0.25;
+            int goesToShelter = (int)(numHumans * ps);
+            if (goesToShelter > numAvailShelters-numHumansInShelters){
+                goesToShelter = numAvailShelters-numHumansInShelters;
+            }
+            numHumansInShelters += goesToShelter;
+            numHumans -= goesToShelter;
         }
     }
 
@@ -141,6 +158,21 @@ public class AreaNode extends Node{
         this.numSoldiers = numSoldiers;
     }
     
+    public int getNumAvailShelters() {
+        return numAvailShelters;
+    }
+
+    public void setNumAvailShelters(int availShelters) {
+        this.numAvailShelters = availShelters;
+    }
+
+    public int getNumHumansInShelters() {
+        return numHumansInShelters;
+    }
+
+    public void setNumHumansInShelters(int humansInShelters) {
+        this.numHumansInShelters = humansInShelters;
+    }
     
     
     

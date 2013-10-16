@@ -37,6 +37,7 @@ public class Main extends SimpleApplication {
             AreaNode an = new AreaNode(new Vector2f(i*1f,0f), new Vector2f(1f,1f));
             areas.attachChild(an);
             an.setNumHumans((int)(Math.random()*100));
+            an.setNumAvailShelters((int)(Math.random()*10));
             if(i == 0) an.setNumZombies(10);
             //if(i == 0) an.setNumHumans(100);
         }
@@ -64,13 +65,16 @@ public class Main extends SimpleApplication {
     void updateLogic(float tpf){
         tickTime += tpf;
         
-        if(tickTime > 0.2f){
-            tickTime -= 0.2f;
+        if(tickTime > 1){
+            tickTime -= 1;
             for(Spatial an : areas.getChildren()){
                 ((AreaNode)an).planZombieMovements(tpf);
             }
             for(Spatial an : areas.getChildren()){
                 ((AreaNode)an).moveZombies(tpf);
+            }
+            for(Spatial an : areas.getChildren()){
+                ((AreaNode)an).humanSearchShelter(tpf);
             }
             for(Spatial an : areas.getChildren()){
                 ((AreaNode)an).eatZombies(tpf);
