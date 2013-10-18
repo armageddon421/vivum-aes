@@ -34,7 +34,7 @@ public class Main extends SimpleApplication {
         rootNode.attachChild(areas);
         
         for(int i=0; i<10; i++){
-            AreaNode an = new AreaNode(new Vector2f(i*1f,0f), new Vector2f(1f,1f));
+            AreaNode an = new StreetAreaNode(new Vector2f(i*1f,0f), new Vector2f(1f,1f));
             areas.attachChild(an);
             an.setNumHumans((int)(Math.random()*100));
             an.setNumAvailShelters((int)(Math.random()*10));

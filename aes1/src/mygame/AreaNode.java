@@ -18,23 +18,31 @@ import com.jme3.scene.shape.Quad;
  *
  * @author armageddon
  */
-public class AreaNode extends Node{
+abstract public class AreaNode extends Node{
     
     static final float AREA_PADDING = 0.125f;
     static final float AREA_FONT_SIZE = 0.1f;
     static final float AREA_FONT_PADDING = AREA_PADDING + 0.05f;
+    static final float AREA_FONT_HEIGHT = 0.02f;
     
-    private int numZombies;
-    private int numHumans;
-    private int numSoldiers;
-    private int numAvailShelters;
-    private int numHumansInShelters;
+    //generation parameters
+    static final int AREA_GEN_SHELTER_MAX =0;
+    static final int AREA_GEN_HUMANS_MAX  =0;
+    static final int AREA_GEN_ZOMBIES_MAX =0;
+    
+    
+    
+    int numZombies;
+    int numHumans;
+    int numSoldiers;
+    int numAvailShelters;
+    int numHumansInShelters;
 
     
-    private Vector2f pos;
-    private Vector2f size;
+    Vector2f pos;
+    Vector2f size;
     
-    private Node connections;
+    Node connections;
     
     BitmapText statusText;
 
@@ -49,25 +57,6 @@ public class AreaNode extends Node{
         
         connections = new Node("connections");
         attachChild(connections);
-        
-        //Basic Rectangle
-        Quad q = new Quad(size.x-AREA_PADDING*2, size.y-AREA_PADDING*2);
-        Geometry geom = new Geometry("Quad", q);
-        Material mat = new Material(Main.app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Blue);
-        geom.setMaterial(mat);
-        geom.setLocalTranslation(AREA_PADDING, AREA_PADDING, 0f);
-        attachChild(geom);
-        
-        //Text
-        
-        BitmapFont guiFont = Main.app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        statusText = new BitmapText(guiFont, false);
-        statusText.setSize(AREA_FONT_SIZE);
-        statusText.setText("Hello World\ntest");
-        statusText.setLocalTranslation(AREA_FONT_PADDING, size.y-AREA_FONT_PADDING, 0.02f);
-        attachChild(statusText);
-        
         
         
         setLocalTranslation(pos.x, pos.y, 0.0f);
