@@ -35,19 +35,33 @@ public class AreaConnectionNode extends Node{
         size = new Vector2f();
         
         
-        if(to.getPosition().x + to.getSize().x <= src.getPosition().x){
-            pos.setY(Math.max(src.getPosition().y, to.getPosition().y) + CONNECTION_PADDING);
-            size.setY(Math.min(src.getPosition().y + src.getSize().y, to.getPosition().y + to.getSize().y) - pos.y - CONNECTION_PADDING);
+        if(to.getPosition().x + to.getSize().x <= src.getPosition().x){ //left side
+            pos.setY(Math.max(src.getPosition().y, to.getPosition().y) - src.getPosition().y + CONNECTION_PADDING);
+            size.setY(Math.min(src.getPosition().y + src.getSize().y, to.getPosition().y + to.getSize().y) - pos.y - src.getPosition().y - CONNECTION_PADDING);
             
             pos.x = 0f;
             size.x = 1.0f/16;
         }
-        else if(src.getPosition().x + src.getSize().x <= to.getPosition().x){
-            pos.setY(Math.max(src.getPosition().y, to.getPosition().y) + CONNECTION_PADDING);
-            size.setY(Math.min(src.getPosition().y + src.getSize().y, to.getPosition().y + to.getSize().y) - pos.y - CONNECTION_PADDING);
+        else if(src.getPosition().x + src.getSize().x <= to.getPosition().x){ //right side
+            pos.setY(Math.max(src.getPosition().y, to.getPosition().y) - src.getPosition().y + CONNECTION_PADDING);
+            size.setY(Math.min(src.getPosition().y + src.getSize().y, to.getPosition().y + to.getSize().y) - pos.y - src.getPosition().y - CONNECTION_PADDING);
             
             size.x = 1.0f/16;
             pos.x = 1f - size.x;
+        }
+        else if(to.getPosition().y + to.getSize().y <= src.getPosition().y){ //bottom side
+            pos.setX(Math.max(src.getPosition().x, to.getPosition().x) - src.getPosition().x + CONNECTION_PADDING);
+            size.setX(Math.min(src.getPosition().x + src.getSize().x, to.getPosition().x + to.getSize().x) - pos.x - src.getPosition().x - CONNECTION_PADDING);
+            
+            pos.y = 0f;
+            size.y = 1.0f/16;
+        }
+        else if(src.getPosition().y + src.getSize().y <= to.getPosition().y){ //top side
+            pos.setX(Math.max(src.getPosition().x, to.getPosition().x) - src.getPosition().x + CONNECTION_PADDING);
+            size.setX(Math.min(src.getPosition().x + src.getSize().x, to.getPosition().x + to.getSize().x) - pos.x - src.getPosition().x - CONNECTION_PADDING);
+            
+            size.y = 1.0f/16;
+            pos.y = 1f - size.y;
         }
         
         
