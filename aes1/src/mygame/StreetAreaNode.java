@@ -19,6 +19,11 @@ import com.jme3.scene.shape.Quad;
  */
 public class StreetAreaNode extends AreaNode {
     
+    //generation parameters
+    static final int AREA_GEN_SHELTER_MAX =3;
+    static final int AREA_GEN_HUMANS_MAX  =20;
+    static final int AREA_GEN_ZOMBIES_MAX =20;
+    
     
     public StreetAreaNode(Vector2f pos, Vector2f size) {
         super(pos,size);

@@ -33,19 +33,33 @@ public class Main extends SimpleApplication {
         areas = new Node("areas");
         rootNode.attachChild(areas);
         
+        //generate Streets
         for(int i=0; i<10; i++){
             AreaNode an = new StreetAreaNode(new Vector2f(i*1f,0f), new Vector2f(1f,1f));
             areas.attachChild(an);
-            an.setNumHumans((int)(Math.random()*100));
-            an.setNumAvailShelters((int)(Math.random()*10));
+            an.setNumHumans((int)(Math.random()*StreetAreaNode.AREA_GEN_HUMANS_MAX));
+            an.setNumAvailShelters((int)(Math.random()*StreetAreaNode.AREA_GEN_ZOMBIES_MAX));
             if(i == 0) an.setNumZombies(10);
             //if(i == 0) an.setNumHumans(100);
         }
         
-        for(int i=0; i<areas.getQuantity()-1; i++){
+        //generate Buildings
+        for(int i=0; i<9; i++){
+            AreaNode an = new BuildingAreaNode(new Vector2f(i*1f,1f), new Vector2f(1f,1f));
+            areas.attachChild(an);
+            an.setNumHumans((int)(Math.random()*BuildingAreaNode.AREA_GEN_HUMANS_MAX));
+            an.setNumAvailShelters((int)(Math.random()*BuildingAreaNode.AREA_GEN_SHELTER_MAX));
+            if(i == 0) an.setNumZombies(10);
+            //if(i == 0) an.setNumHumans(100);
+        }
+        
+        for(int i=0; i<9; i++){
+            //adjacent street piece
             ((AreaNode)areas.getChild(i)).connect((AreaNode)areas.getChild(i+1));
             ((AreaNode)areas.getChild(i+1)).connect((AreaNode)areas.getChild(i));
-            
+            //building entrances
+            ((AreaNode)areas.getChild(i)).connect((AreaNode)areas.getChild(i+10));
+            ((AreaNode)areas.getChild(i+10)).connect((AreaNode)areas.getChild(i));
         }
         
        
