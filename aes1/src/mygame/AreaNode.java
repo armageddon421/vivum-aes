@@ -102,8 +102,8 @@ abstract public class AreaNode extends Node{
     
     void humanSearchShelter(float tpf){
         if((numHumans > 0) && (numZombies > 0)){
-            double ps = numHumans * 0.1;
-            int goesToShelter = (int)(numHumans * ps);
+            
+            int goesToShelter = (int)(1);
             if (goesToShelter > numAvailShelters-numHumansInShelters){
                 goesToShelter = numAvailShelters-numHumansInShelters;
             }
