@@ -45,7 +45,7 @@ public class Main extends SimpleApplication {
         
         //generate Buildings
         for(int i=0; i<9; i++){
-            AreaNode an = new BuildingAreaNode(new Vector2f(i*1f,1f), new Vector2f(1f,1f));
+            AreaNode an = new BuildingAreaNode(new Vector2f(i*1f-0.3f,1f), new Vector2f(1f,1f));
             areas.attachChild(an);
             an.setNumHumans((int)(Math.random()*BuildingAreaNode.AREA_GEN_HUMANS_MAX));
             an.setNumAvailShelters((int)(Math.random()*BuildingAreaNode.AREA_GEN_SHELTER_MAX));
