@@ -1,11 +1,15 @@
 package mygame;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.material.Material;
+import com.jme3.math.ColorRGBA;
+import com.jme3.scene.shape.Line;
 import com.jme3.math.Vector2f;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import java.util.Random;
 
 /**
  * test
@@ -29,6 +33,10 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         tickTime = 0f;
+        
+        initGui();
+        
+        flyCam.setUpVector(new Vector3f(0f, 0f, 1f));
         
         areas = new Node("areas");
         rootNode.attachChild(areas);
@@ -100,6 +108,30 @@ public class Main extends SimpleApplication {
         for(Spatial an : areas.getChildren()){
             ((AreaNode)an).updateGraphics(tpf);
         }
+    }
+
+    private void initGui() {
+       createCrosshair();
+    }
+    
+    private void createCrosshair(){
+        Line l1 = new Line(new Vector3f(settings.getWidth()/2-10f,settings.getHeight()/2-0f,0f), new Vector3f(settings.getWidth()/2+10f,settings.getHeight()/2+0f,0f));
+        //l.setLineWidth(1f);
+        Geometry geom1 = new Geometry("line", l1);
+        Material mat1 = new Material(Main.app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        mat1.setColor("Color", ColorRGBA.Green);
+        
+        geom1.setMaterial(mat1);
+        guiNode.attachChild(geom1);
+        
+        Line l2 = new Line(new Vector3f(settings.getWidth()/2-0f,settings.getHeight()/2-10f,0f), new Vector3f(settings.getWidth()/2+0f,settings.getHeight()/2+10f,0f));
+        //l.setLineWidth(1f);
+        Geometry geom2 = new Geometry("line", l2);
+        Material mat2 = new Material(Main.app.getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        mat2.setColor("Color", ColorRGBA.Green);
+        
+        geom2.setMaterial(mat2);
+        guiNode.attachChild(geom2);
     }
     
     
